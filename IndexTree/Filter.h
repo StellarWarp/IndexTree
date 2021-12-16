@@ -5,39 +5,41 @@ class Fliter
 {
 	unsigned long* SearchList;
 	unsigned long* FlitList;
-	int lenth;
+	typedef unsigned long unit;
+	const unsigned int size_unit = sizeof(unit);
+	unsigned int space;
 	void BitAppend(unsigned long List[], unsigned long value)
 	{
 		unsigned long in = 1;
-		unsigned int i = value % 8;
-		for (i = value % 8; i > 0; i--)
+		unsigned int i = value % size_unit;
+		for (i = value % size_unit; i > 0; i--)
 		{
 			in = in << 1;
 		}
-		List[value / 8] |= in;
+		List[value / size_unit] |= in;
 	}
 	void BitFlit(unsigned long List1[], unsigned long List2[])
 	{
 		unsigned long in = 1;
-		for (unsigned int i = 0; i < lenth; i++)
+		for (unsigned int i = 0; i < space; i++)
 		{
 			List1[i] &= List2[i];
 		}
 		delete[] List2;
-		List2 = new unsigned long[lenth] {0};
+		List2 = new unsigned long[space] {0};
 	}
 public:
-	Fliter(int maxnum)
+	Fliter(int max_num)
 	{
-		lenth = maxnum % 8 == 0 ? maxnum / 8 : maxnum / 8 + 1;
-		SearchList = new unsigned long[lenth] {0};
-		FlitList = new unsigned long[lenth] {0};
+		space = max_num % size_unit == 0 ? max_num / size_unit : max_num / size_unit + 1;
+		SearchList = new unsigned long[space] {0};
+		FlitList = new unsigned long[space] {0};
 	}
 	Line<unsigned long>& Read()
 	{
 		Line<unsigned long> Result;
 		unsigned long* p = SearchList;
-		for (int i = 0; i < lenth; i++)
+		for (int i = 0; i < space; i++)
 		{
 			if (*p)
 			{
@@ -45,7 +47,7 @@ public:
 				{
 					if (*p % 2)
 					{
-						Result.IN(i * 8 + j);
+						Result.IN(i * size_unit + j);
 					}
 					*p = *p >> 1;
 				}
