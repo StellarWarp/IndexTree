@@ -52,6 +52,7 @@ public:
 	{
 		return C->num;
 	}
+	//返回创建的数组
 	T* Read(int n)
 	{
 		ReadLog = new T[n];
@@ -125,7 +126,7 @@ public:
 	}
 };
 //数组操作
-template<class T>
+template<class T>//从前开始
 void inline MoveArray(T a[], int alow, int atop, T b[], int blow = 0)
 {
 	T* ap = a + alow;
@@ -137,7 +138,7 @@ void inline MoveArray(T a[], int alow, int atop, T b[], int blow = 0)
 		bp++;
 	}
 }
-template<class T>
+template<class T>//从后开始
 void inline MoveArray_b(T a[], int alow, int atop, T b[], int btop)
 {
 	T* ap = a + atop;
@@ -225,7 +226,7 @@ void quicksort(T array[], int low, int high)
 }
 
 //二分法数组查找
-template<class T>
+template<class T>//精准搜索，若无报错
 int DilitarySearch_p(T array[], int low, int high, T value)
 {
 	int p;//搜索位置
@@ -248,7 +249,7 @@ int DilitarySearch_p(T array[], int low, int high, T value)
 		else if (cvalue == value) return p;
 	}
 }
-//<=
+//<=无用
 template<class T>
 int DilitarySearch_r_l(T array[], int low, int high, T value)
 {
@@ -268,7 +269,7 @@ int DilitarySearch_r_l(T array[], int low, int high, T value)
 		else if (cvalue == value) return p;
 	}
 }
-//>=
+//>=无用
 template<class T>
 int DilitarySearch_r_s(T array[], int low, int high, T value)
 {
@@ -288,8 +289,7 @@ int DilitarySearch_r_s(T array[], int low, int high, T value)
 		else if (cvalue > value) b = p - 1;
 	}
 }
-//当value大于最大值时，返回最大index+1//修改
-template<class T>
+template<class T>//当value大于最大值时，返回最大index
 int inline DilitarySearch_down(T array[], int low, int high, T value)
 {
 	if (value > array[high])
@@ -315,8 +315,7 @@ int inline DilitarySearch_down(T array[], int low, int high, T value)
 		else if (cvalue >= value) b = p;
 	}
 }
-//当value大于最大值时，返回最大index+1
-template<class T>
+template<class T>//当value大于最大值时，返回最大index
 int inline DilitarySearch_up(T array[], int low, int high, T value)
 {
 	if (value > array[high])
@@ -346,7 +345,7 @@ int inline DilitarySearch_up(T array[], int low, int high, T value)
 		else if (cvalue > value) b = p;
 	}
 }
-template<class T>
+template<class T>//范围搜索
 int inline DilitarySearch_range(T array[], int low, int high, T low_value, T high_value, int& ia, int& ib)
 {
 	if (high_value > array[high])
@@ -386,8 +385,8 @@ int inline DilitarySearch_range(T array[], int low, int high, T low_value, T hig
 		}
 	}
 }
-//无同值不核对
-template<class T1, class T2>
+
+template<class T1, class T2>//精确搜索//兼容同值搜索//无同值不核对//1是关键词数组，2是辅助搜索数组
 int inline DilitarySearch_SecondOrder_p(T1 array1[], T2 array2[], int low, int high, T1 value1, T2 value2)
 {
 	int a, b;
@@ -405,7 +404,7 @@ int inline DilitarySearch_SecondOrder_p(T1 array1[], T2 array2[], int low, int h
 
 }
 
-template<class T1, class T2>
+template<class T1, class T2>//返回下限//兼容同值搜索//无同值不核对//1是关键词数组，2是辅助搜索数组
 int inline DilitarySearch_SecondOrder_down(T1 array1[], T2 array2[], int low, int high, T1 value1, T2 value2)
 {
 	int a, b;

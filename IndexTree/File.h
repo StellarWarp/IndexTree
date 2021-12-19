@@ -20,6 +20,7 @@ T* GetTextData(string filepath, unsigned long index, const int readform)
     return data;
 }
 
+//基础文件读写管理
 template<class DT>
 class fmanage
 {
@@ -124,13 +125,13 @@ public:
 		file.seekg(DataPointer);
 		file.read((char*)&data, datalen);
 	}
-
+	//用标号读取
 	void ReadFile_i(unsigned long DataPointer, DT& data)
 	{
 		file.seekg(DataPointer*datalen);
 		file.read((char*)&data, datalen);
 	}
-
+	//数据遍历//返回动态列队//文件指针//考虑抛弃
 	Line<unsigned long>& FileTraversal()
 	{
 
@@ -178,7 +179,7 @@ public:
 
 		return *DataAddress;
 	}
-
+	//数据遍历//返回动态列队//标号
 	Line<unsigned long>& FileTraversal_i()
 	{
 
@@ -223,7 +224,7 @@ public:
 
 		return *DataAddress;
 	}
-	//未完成
+	//未完成//printfunction未写完
 	void PrintFile(Line<unsigned long>& DataAddress, void (*printfunction)(DT&))
 	{
 		DT data;
@@ -231,12 +232,12 @@ public:
 		{
 			unsigned long DataPointer = DataAddress.OUT()*datalen;
 			ReadFile(DataPointer, data);
-			printfunction(data);//未完成
+			printfunction(data);
 		}
 	}
 };
 
-//未完成
+//索引文件+记录文件读写管理//未完成
 template<class DT, class IT>
 class RelevantInfoFile
 {

@@ -11,11 +11,11 @@ class Index
 	static const int max_key = M - 1;
 	static const int min_i = min_key - 1;
 	static const int max_i = max_key - 1;
-	int H = 0;
+	int H = 0;//树高
 
 	//结构
-	union Pointer;
-	struct LayerData
+	union Pointer;//声明
+	struct LayerData//子叶节点
 	{
 		DT key[max_key] = {};
 		unsigned long DataPointer[max_key] = {};
@@ -31,7 +31,7 @@ class Index
 	};
 	Stack<LayerN*> Path;
 	Stack<int> Pathi;
-	union Pointer
+	union Pointer//节点间指针
 	{
 		LayerData* Dp;
 		LayerN* Np = NULL;
@@ -49,10 +49,10 @@ class Index
 			Np = P;
 		}
 	};
-	Pointer* Master;
+	Pointer* Master;//根节点指针
 
 	//LayerData的操作函数
-	//未完成
+	//未完成?
 	void Find(LayerData& Node, DT value, Line<unsigned long>& DataAddress)
 	{
 		int i = DilitarySearch_down(Node.key, 0, Node.num - 1, value);
@@ -68,8 +68,9 @@ class Index
 					DataAddress.IN(Node.DataPointer[i]);
 					i++;
 				}
-				if (i == Node.num)
+				if (i == Node.num && Node.next)
 				{
+
 					Find(*(Node.next), value, DataAddress);
 				}
 			}
@@ -145,7 +146,7 @@ class Index
 		Y[x] = y;
 		X[x] = Cvalue;
 	}
-	void Satistic_r(LayerData& Node, DT X[], DT low_key, DT top_key, DT gap, int Y[])
+	void Satistic_range(LayerData& Node, DT X[], DT low_key, DT top_key, DT gap, int Y[])
 	{
 		int i = DilitarySearch_down(Node.key, 0, Node.num - 1, low_key);
 		LayerData* CNode = &Node;
@@ -269,7 +270,7 @@ class Index
 	}
 
 	//LayerN的操作函数
-	//未完成
+	//未完成//不使用
 	Pointer Find(LayerN& Node, DT value)
 	{
 		if (value > Node.key[max_key-1]) return Node.NodePointer[max_key];
@@ -318,6 +319,7 @@ class Index
 		if (in == Node.num-1) return 1;
 		else return 0;
 	}
+	//更新并回溯
 	bool update(LayerN* Node, int i, DT value, unsigned long DP)
 	{
 		if (i == Node->num - 1)
@@ -343,6 +345,7 @@ class Index
 		Node->key[i] = value;
 		Node->DataPointer[i] = DP;
 	}
+	//分裂并增加
 	Pointer Divide(LayerN& Node, Pointer P, DT value, unsigned long DP)
 	{
 		LayerN* NewNode = new LayerN;
@@ -379,6 +382,7 @@ class Index
 		}
 		return Pointer(NewNode);
 	}
+	//删除并返回删除index
 	int Delete(LayerN& Node, DT value, unsigned long DP)
 	{
 		Node.num--;
@@ -510,7 +514,7 @@ class Index
 
 		}
 	}
-
+	//删除功能未充分检验
 	void LayerNDelete(DT key, unsigned long DP)
 	{
 		LayerN& CLayer = *Path.OUT();
@@ -663,10 +667,10 @@ public:
 		LayerData* CNode = FIndLayerData(low_key, 0);
 		Satistic(*CNode, X, low_key, top_key, Y);
 	}
-	void data_satistic_r(DT X[], DT low_key, DT top_key, DT gap, int Y[])
+	void data_satistic_range(DT X[], DT low_key, DT top_key, DT gap, int Y[])
 	{
 		LayerData* CNode = FIndLayerData(low_key, 0);
-		Satistic_r(*CNode, X, low_key, top_key, gap, Y);
+		Satistic_range(*CNode, X, low_key, top_key, gap, Y);
 	}
 };
 
