@@ -1,6 +1,7 @@
 #ifndef STRUCT_H
 #define STRUCT_H
 #include<iostream>
+#include"TypeSupport.h"
 using namespace std;
 
 struct persondata
@@ -19,7 +20,7 @@ struct scoredata //仅用于读score//和person关联
 {
 	char name[33];
 	char ID[19];
-	char date[11];
+	Date date;
 	int category;
 	int time;
 	int score_add;
@@ -33,7 +34,7 @@ struct record //用于读record
 {
 	char name[33];
 	char ID[19];
-	char date[11];
+	Date date;
 	int category;
 	int time;
 	int score_add;

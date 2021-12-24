@@ -141,8 +141,7 @@
   <ItemGroup>
     <ClCompile Include="Index.cpp" />
     <ClCompile Include="Main.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-      </ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="File.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -151,6 +150,7 @@
     <ClCompile Include="Test.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="TypeSupport.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataPrinter.h" />
@@ -165,6 +165,7 @@
     <ClInclude Include="Support.h" />
     <ClInclude Include="Struct.h" />
     <ClInclude Include="StructOP.h" />
+    <ClInclude Include="TypeSupport.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -41,8 +41,8 @@ int main()
     fmanage<persondata> personfile;
     personfile.OpenFile("Data/person.bin", "Data/FileManage/person_hole.bin");
    
-    Index<string> PersonName_i;
-    Index<string> PersonID_i;
+    Index<fstring<33>> PersonName_i;
+    Index<fstring<19>> PersonID_i;
     Index<int> PersonAge_i;
     Index<int> PersonIncome_i;
     Index<long long> PersonPhone_i;
@@ -51,7 +51,7 @@ int main()
     IndexConstruct(personfile, PersonAge_i, person_age);
     IndexConstruct(personfile, PersonIncome_i, person_income);
     IndexConstruct(personfile, PersonPhone_i, person_phone);
-    Index<string> Record_i;
+    Index<Date> Record_i;
     IndexConstruct(recordfile.file_m, Record_i, record_date);
 
     Search list1;
@@ -71,12 +71,16 @@ int main()
     cout << endl;
     PrintXY(X, Y, 20);
     cout << endl;
-    PersonIncome_i.data_satistic_r(X, 2000, 20000, 1000, Y);
+    PersonIncome_i.data_satistic_range(X, 2000, 20000, 1000, Y);
     PrintXY(X, Y, 20);
     cout << endl;
-    string X1[lenth] = {};
-    Record_i.data_satistic(X1, "2024.01.01", "2024.01.05", Y);
-    PrintXY(X1, Y, 5);
+    Date X1[lenth] = {};
+    Date t1, t2, gt;
+    t1 = "2024.01.01";
+    t2 = "2035.06.05";
+    gt += 60;
+    Record_i.data_satistic_range(X1, t1, t2, gt, Y);
+    PrintXY(X1, Y, 40);
 
     recordfile.CloseFile();
     personfile.CloseFile();

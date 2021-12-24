@@ -1,5 +1,6 @@
 #pragma once
 #include<iostream>
+#include"TypeSupport.h"
 using namespace std;
 template<class T>
 void PrintXY(T X[], int Y[], int num)
