@@ -84,6 +84,8 @@ int main()
 
     recordfile.CloseFile();
     personfile.CloseFile();
+
+    PersonName_i.SaveIndex("person");
 }
 
 

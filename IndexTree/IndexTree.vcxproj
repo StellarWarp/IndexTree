@@ -139,7 +139,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Index.cpp" />
     <ClCompile Include="Main.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>
@@ -154,12 +153,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataPrinter.h" />
+    <ClInclude Include="Define.h" />
     <ClInclude Include="File.h" />
     <ClInclude Include="Filter.h" />
     <ClInclude Include="Index.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
       </ExcludedFromBuild>
     </ClInclude>
+    <ClInclude Include="Index_S.h" />
     <ClInclude Include="Index_single.h" />
     <ClInclude Include="Printer.h" />
     <ClInclude Include="Support.h" />

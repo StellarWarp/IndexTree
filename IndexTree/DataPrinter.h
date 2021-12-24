@@ -3,8 +3,8 @@
 #include"Struct.h"
 using namespace std;
 
-template<class T>
-void ReadForm(ifstream& datafile, T* data, const int& readform)
+template<class DT>
+void ReadForm(ifstream& datafile, DT* data, const int& readform)
 {
 	switch (readform)
 	{
@@ -45,8 +45,8 @@ union pf
 //	
 //}
 
-template<class T>
-void Print_s_data(T& data)
+template<class DT>
+void Print_s_data(DT& data)
 {
 	cout << data.person.name << " ";
 	cout << data.person.ID << " ";
@@ -57,8 +57,8 @@ void Print_s_data(T& data)
 	cout << data.person.address << endl;
 }
 
-template<class T>
-void Print_s_person(T& data)
+template<class DT>
+void Print_s_person(DT& data)
 {
 	cout << data.name << " ";
 	cout << data.ID << " ";
@@ -69,8 +69,8 @@ void Print_s_person(T& data)
 	cout << data.address << endl;
 }
 
-template<class T>
-void Print_s_record(T& data)
+template<class DT>
+void Print_s_record(DT& data)
 {
 	cout << data.name << " ";
 	cout << data.ID << " ";

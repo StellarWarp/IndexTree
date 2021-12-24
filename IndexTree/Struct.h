@@ -2,6 +2,7 @@
 #define STRUCT_H
 #include<iostream>
 #include"TypeSupport.h"
+#include"Define.h"
 using namespace std;
 
 struct persondata
@@ -60,5 +61,25 @@ struct data
 {
     struct persondata person;
 };
+
+template<class DT>
+struct Index_LayerData
+{
+	DT key[M-1] = {};
+	unsigned long DataPointer[M-1] = {};
+	unsigned long next = {};
+	int num = 0;
+};
+
+template<class DT>
+struct Index_LayerN
+{
+	DT key[M - 1] = {};
+	unsigned long DataPointer[M - 1] = {};//用于辨识
+	unsigned long NodePointer[M] = {};
+	int num = 0;
+};
+
+
 #endif // !STRUCT_H
 

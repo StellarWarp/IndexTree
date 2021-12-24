@@ -1,11 +1,9 @@
-#ifndef INDEX_H
-#define INDEX_H
+#pragma once
 #include"Struct.h"
 #include"Support.h"
-#include"File.h"
 #include"Define.h"//M
 template<class DT>//关键字的类型
-class Index
+class Index_s
 {
 	//参数
 	static const int min_key = (M % 2) ? M / 2 + 1 : M / 2;//m/2向上取整
@@ -113,7 +111,7 @@ class Index
 		DT Cvalue = Ckey;
 		while (Ckey <= top_key)
 		{
-			if (i < CNode->num-1)//未到边界
+			if (i < CNode->num - 1)//未到边界
 			{
 				if (Ckey > Cvalue)
 				{
@@ -159,7 +157,7 @@ class Index
 		{
 			if (i < CNode->num - 1)//未到边界
 			{
-				if (Ckey > StepValue +gap)
+				if (Ckey > StepValue + gap)
 				{
 					Y[x] = y;
 					X[x] = StepValue;
@@ -216,9 +214,9 @@ class Index
 		InsertArray(Node.key, in, max_i, value);
 		InsertArray(Node.DataPointer, in, max_i, DP);
 		Node.num++;
-		if (in == Node.num-1) return 1;
+		if (in == Node.num - 1) return 1;
 		else return 0;
-		
+
 	}
 	Pointer Divide(LayerData& Node, unsigned long DP, DT value)
 	{
@@ -238,7 +236,7 @@ class Index
 			SetArray(Node.DataPointer, min_i, max_i, 0UL);
 			InsertArray(Node.key, in, min_i, value);
 			InsertArray(Node.DataPointer, in, min_i, DP);
-			
+
 		}
 		else
 		{
@@ -246,7 +244,7 @@ class Index
 			MoveArray(Node.DataPointer, min_key, max_i, NewNode->DataPointer);
 			SetArray(Node.key, min_key, max_i, DT());
 			SetArray(Node.DataPointer, min_key, max_i, 0UL);
-			InsertArray(NewNode->key, in- min_key, min_i, value);
+			InsertArray(NewNode->key, in - min_key, min_i, value);
 			InsertArray(NewNode->DataPointer, in - min_key, min_i, DP);
 		}
 		NewNode->next = Node.next;
@@ -274,8 +272,8 @@ class Index
 	//未完成//不使用
 	Pointer Find(LayerN& Node, DT value)
 	{
-		if (value > Node.key[max_key-1]) return Node.NodePointer[max_key];
-		return Node.NodePointer[DilitarySearch_down(Node.key, 0, Node.num-1, value)];
+		if (value > Node.key[max_key - 1]) return Node.NodePointer[max_key];
+		return Node.NodePointer[DilitarySearch_down(Node.key, 0, Node.num - 1, value)];
 	}
 	bool isfull(LayerN& Node)
 	{
@@ -317,7 +315,7 @@ class Index
 		InsertArray(Node.NodePointer, in, max_i, P);
 		InsertArray(Node.DataPointer, in, max_i, DP);
 		Node.num++;
-		if (in == Node.num-1) return 1;
+		if (in == Node.num - 1) return 1;
 		else return 0;
 	}
 	//更新并回溯
@@ -428,7 +426,7 @@ class Index
 				}
 			}
 		}
-		while (h>1)
+		while (h > 1)
 		{
 			Path.IN(p.Np);
 			int i = DilitarySearch_SecondOrder_down(p.Np->key, p.Np->DataPointer, 0, p.Np->num - 1, key, DP);//建立的时候出错//第二指标排序错误
@@ -451,7 +449,7 @@ class Index
 				Pointer C(&CLayer);
 				delete Master;
 				Master = new Pointer(newLayer(C, CLayer.key[min_i], CLayer.DataPointer[min_i],
-															NLayer, NLayer.Np->key[min_i], NLayer.Np->DataPointer[min_i]));
+					NLayer, NLayer.Np->key[min_i], NLayer.Np->DataPointer[min_i]));
 				H++;
 			}
 			else
@@ -492,7 +490,7 @@ class Index
 					Pointer C(&CLayer);
 					delete Master;
 					Master = new Pointer(newLayer(C, CLayer.key[min_i], CLayer.DataPointer[min_i],
-																	NLayer, NLayer.Dp->key[min_i], NLayer.Dp->DataPointer[min_i]));
+						NLayer, NLayer.Dp->key[min_i], NLayer.Dp->DataPointer[min_i]));
 					H++;
 				}
 				else
@@ -583,7 +581,7 @@ class Index
 			Master = NewMaster;
 			H--;
 		}
-		
+
 	}
 	void LayerDataDelete(unsigned long DataPointer, DT key)
 	{
@@ -615,7 +613,7 @@ class Index
 						MoveArray_b(BNode->DataPointer, 0, min_i, BNode->DataPointer, max_i);
 						Shift(CLayer, 0, min_i - 1, *BNode, 0);
 						LayerNDelete(keymax, DPmax);
-						delete &CLayer;
+						delete& CLayer;
 					}
 				}
 				else
@@ -639,59 +637,11 @@ class Index
 			}
 			else if (del == CLayer.num)
 			{
-				update(Path.OUT(), Pathi.OUT(), CLayer.key[CLayer.num-1], CLayer.DataPointer[CLayer.num-1]);
+				update(Path.OUT(), Pathi.OUT(), CLayer.key[CLayer.num - 1], CLayer.DataPointer[CLayer.num - 1]);
 			}
 		}
 	}
 
-	//保存
-	unsigned long SaveLayerData(fmanage<Index_LayerData<DT>>& file, Pointer P)
-	{
-		Index_LayerData<DT> LayerData_s;
-		MoveArray(P.Dp->key, 0, max_i, LayerData_s.key, 0);
-		MoveArray(P.Dp->DataPointer, 0, max_i, LayerData_s.DataPointer, 0);
-		LayerData_s.num = P.Dp->num;
-		unsigned long p = file.FileAppends(LayerData_s);
-		if (P.Dp->next)
-		{
-			LayerData_s.next = p+1;
-		}
-		else
-		{
-			LayerData_s.next = -1;
-		}
-		file.FileModify(LayerData_s, p);
-		return p;
-	}
-	unsigned long SaveLayerN(fmanage<Index_LayerN<DT>>& fileN, fmanage<Index_LayerData<DT>>& fileD, Pointer P, int Layer)
-	{
-		if (Layer > 2)
-		{
-			Index_LayerN<DT> LayerN_s;
-			MoveArray(P.Np->key, 0, max_i, LayerN_s.key, 0);
-			MoveArray(P.Np->DataPointer, 0, max_i, LayerN_s.DataPointer, 0);
-			LayerN_s.num = P.Np->num;
-			for (int i = 0; i < P.Np->num; i++)
-			{
-				LayerN_s.NodePointer[i] = SaveLayerN(fileN, fileD, P.Np->NodePointer[i], Layer - 1);
-			}
-			unsigned long p = fileN.FileAppends(LayerN_s);
-			return p;
-		}
-		else//layer == 2
-		{
-			Index_LayerN<DT> LayerN_s;
-			MoveArray(P.Np->key, 0, max_i, LayerN_s.key, 0);
-			MoveArray(P.Np->DataPointer, 0, max_i, LayerN_s.DataPointer, 0);
-			LayerN_s.num = P.Np->num;
-			for (int i = 0; i < P.Np->num; i++)
-			{
-				LayerN_s.NodePointer[i] = SaveLayerData(fileD, P.Np->NodePointer[i]);//next linking problme
-			}
-			unsigned long p = fileN.FileAppends(LayerN_s);
-			return p;
-		}
-	}
 public:
 	void data_insert(unsigned long DataPointer, DT key)
 	{
@@ -701,9 +651,9 @@ public:
 	{
 		LayerDataDelete(DataPointer, key);
 	}
-	void data_find(Line<unsigned long>& DataAddress,DT key, unsigned long DataPointer = -1)
+	void data_find(Line<unsigned long>& DataAddress, DT key, unsigned long DataPointer = -1)
 	{
-		LayerData* CNode = FIndLayerData(key,DataPointer);
+		LayerData* CNode = FIndLayerData(key, DataPointer);
 		Find(*CNode, key, DataAddress);
 	}
 	void data_rangefind(Line<unsigned long>& DataAddress, DT low_key, DT top_key)
@@ -721,22 +671,4 @@ public:
 		LayerData* CNode = FIndLayerData(low_key, 0);
 		Satistic_range(*CNode, X, low_key, top_key, gap, Y);
 	}
-	void SaveIndex(string Name)
-	{
-		fmanage<Index_LayerData<DT>> fLayerData;
-		fmanage<Index_LayerN<DT>> fLayerN;
-		string PathN = "Index/" + Name + "/LayerN.bin";
-		string PathN_h = "Index/" + Name + "/LayerN_hole.bin";
-		string PathD = "Index/" + Name + "/LayerData.bin";
-		string PathD_h = "Index/" + Name + "/LayerData_hole.bin";
-		fLayerN.OpenFile(PathN, PathN_h, true);
-		fLayerData.OpenFile(PathD, PathD_h, true);
-		SaveLayerN(fLayerN, fLayerData, *Master, H);
-		fLayerN.CloseFile();
-		fLayerData.CloseFile();
-	}
 };
-
-#endif // !INDEX_H
-
-

@@ -2,8 +2,8 @@
 #include<iostream>
 #include"TypeSupport.h"
 using namespace std;
-template<class T>
-void PrintXY(T X[], int Y[], int num)
+template<class DT>
+void PrintXY(DT X[], int Y[], int num)
 {
 	for (int i = 0; i < num; i++)
 	{

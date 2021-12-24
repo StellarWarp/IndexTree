@@ -3,25 +3,25 @@
 #include<iostream>
 using namespace std;
 
-template<class T>
+template<class DT>
 class Stack
 {
 	struct block
 	{
-		T num;
+		DT num;
 		block* next;
 
-		block(T n, block* p)
+		block(DT n, block* p)
 		{
 			num = n;
 			next = p;
 		}
 	};
 	block* C = NULL;
-	T* ReadLog;
+	DT* ReadLog;
 
 public:
-	void IN(T n)
+	void IN(DT n)
 	{
 		if (C)
 		{
@@ -32,11 +32,11 @@ public:
 			C = new block(n, NULL);
 		}
 	}
-	T OUT()
+	DT OUT()
 	{
 		if (C)
 		{
-			T n = C->num;
+			DT n = C->num;
 			block* D = C;
 			C = C->next;
 			free(D);
@@ -48,14 +48,14 @@ public:
 			exit(1);
 		}
 	}
-	T Read0()
+	DT Read0()
 	{
 		return C->num;
 	}
 	//返回创建的数组
-	T* Read(int n)
+	DT* Read(int n)
 	{
-		ReadLog = new T[n];
+		ReadLog = new DT[n];
 		block* P = C;
 		for (int i = 0; i < n; i++)
 		{
@@ -74,15 +74,15 @@ public:
 		return C;
 	}
 };
-template<class T>
+template<class DT>
 class Line
 {
 	struct block
 	{
-		T num;
+		DT num;
 		block* next;
 
-		block(T n, block* p)
+		block(DT n, block* p)
 		{
 			num = n;
 			next = p;
@@ -92,7 +92,7 @@ class Line
 	block* E = NULL;
 
 public:
-	void IN(T n)
+	void IN(DT n)
 	{
 		if (E)
 		{
@@ -104,11 +104,11 @@ public:
 			C = E = new block(n, NULL);
 		}
 	}
-	T OUT()
+	DT OUT()
 	{
 		if (C)
 		{
-			T n = C->num;//要返回的值
+			DT n = C->num;//要返回的值
 			block* D = C;
 			C = C->next;
 			free(D);
@@ -126,11 +126,11 @@ public:
 	}
 };
 //数组操作
-template<class T>//从前开始
-void inline MoveArray(T a[], int alow, int atop, T b[], int blow = 0)
+template<class DT>//从前开始
+void inline MoveArray(DT a[], int alow, int atop, DT b[], int blow = 0)
 {
-	T* ap = a + alow;
-	T* bp = b + blow;
+	DT* ap = a + alow;
+	DT* bp = b + blow;
 	for (int i = alow; i <= atop; i++)
 	{
 		*bp = *ap;
@@ -138,11 +138,11 @@ void inline MoveArray(T a[], int alow, int atop, T b[], int blow = 0)
 		bp++;
 	}
 }
-template<class T>//从后开始
-void inline MoveArray_b(T a[], int alow, int atop, T b[], int btop)
+template<class DT>//从后开始
+void inline MoveArray_b(DT a[], int alow, int atop, DT b[], int btop)
 {
-	T* ap = a + atop;
-	T* bp = b + btop;
+	DT* ap = a + atop;
+	DT* bp = b + btop;
 	for (int i = atop; i >= alow; i--)
 	{
 		*bp = *ap;
@@ -150,21 +150,21 @@ void inline MoveArray_b(T a[], int alow, int atop, T b[], int btop)
 		bp--;
 	}
 }
-template<class T>
-void inline SetArray(T a[],int low, int top, T x)
+template<class DT>
+void inline SetArray(DT a[],int low, int top, DT x)
 {
-	T* p = a + low;
+	DT* p = a + low;
 	for (int i = low; i <= top; i++)
 	{
 		*p = x;
 		p++;
 	}
 }
-template<class T>
-void inline InsertArray(T a[], int instert, int top, T value)
+template<class DT>
+void inline InsertArray(DT a[], int instert, int top, DT value)
 {
-	T* p1 = a + top - 1;
-	T* p2 = a + top;
+	DT* p1 = a + top - 1;
+	DT* p2 = a + top;
 	for (int i = top-1; i >= instert; i--)
 	{
 		*p2 = *p1;
@@ -173,8 +173,8 @@ void inline InsertArray(T a[], int instert, int top, T value)
 	}
 	*p2 = value;
 }
-template<class T>
-void inline DeleteArray(T a[], int dele, int top, T evalue)
+template<class DT>
+void inline DeleteArray(DT a[], int dele, int top, DT evalue)
 {
 	if (dele == top)
 	{
@@ -182,8 +182,8 @@ void inline DeleteArray(T a[], int dele, int top, T evalue)
 	}
 	else
 	{
-		T* p1 = a + dele;
-		T* p2 = a + dele + 1;
+		DT* p1 = a + dele;
+		DT* p2 = a + dele + 1;
 		for (int i = dele; i < top; i++)
 		{
 			*p1 = *p2;
@@ -194,11 +194,11 @@ void inline DeleteArray(T a[], int dele, int top, T evalue)
 	}
 }
 //快速排序
-template<class T>
-T Paritition(T array[], int a, int b)//下界与上界
+template<class DT>
+DT Paritition(DT array[], int a, int b)//下界与上界
 {
 	//a,b作为引索
-	T pivot = array[a];
+	DT pivot = array[a];
 	while (a < b)
 	{
 		while (a < b && pivot <= array[b])
@@ -214,23 +214,23 @@ T Paritition(T array[], int a, int b)//下界与上界
 	}
 	return a;
 }
-template<class T>
-void quicksort(T array[], int low, int high)
+template<class DT>
+void quicksort(DT array[], int low, int high)
 {
 	if (low < high)
 	{
-		T pivot = Paritition(array, low, high);
+		DT pivot = Paritition(array, low, high);
 		quicksort(array, low, pivot - 1);
 		quicksort(array, pivot + 1, high);
 	}
 }
 
 //二分法数组查找
-template<class T>//精准搜索，若无报错
-int DilitarySearch_p(T array[], int low, int high, T value)
+template<class DT>//精准搜索，若无报错
+int DilitarySearch_p(DT array[], int low, int high, DT value)
 {
 	int p;//搜索位置
-	T cvalue;
+	DT cvalue;
 	int a = low;
 	int b = high;
 
@@ -250,11 +250,11 @@ int DilitarySearch_p(T array[], int low, int high, T value)
 	}
 }
 //<=无用
-template<class T>
-int DilitarySearch_r_l(T array[], int low, int high, T value)
+template<class DT>
+int DilitarySearch_r_l(DT array[], int low, int high, DT value)
 {
 	int p;//搜索位置
-	T cvalue;
+	DT cvalue;
 	int a = low;
 	int b = high;
 
@@ -270,11 +270,11 @@ int DilitarySearch_r_l(T array[], int low, int high, T value)
 	}
 }
 //>=无用
-template<class T>
-int DilitarySearch_r_s(T array[], int low, int high, T value)
+template<class DT>
+int DilitarySearch_r_s(DT array[], int low, int high, DT value)
 {
 	int p;//搜索位置
-	T cvalue;
+	DT cvalue;
 	int a = low;
 	int b = high;
 
@@ -289,8 +289,8 @@ int DilitarySearch_r_s(T array[], int low, int high, T value)
 		else if (cvalue > value) b = p - 1;
 	}
 }
-template<class T>//当value大于最大值时，返回最大index
-int inline DilitarySearch_down(T array[], int low, int high, T value)
+template<class DT>//当value大于最大值时，返回最大index
+int inline DilitarySearch_down(DT array[], int low, int high, DT value)
 {
 	if (value > array[high])
 	{
@@ -301,7 +301,7 @@ int inline DilitarySearch_down(T array[], int low, int high, T value)
 		return low;
 	}
 	int p;//搜索位置
-	T cvalue;
+	DT cvalue;
 	int a = low;
 	int b = high;
 
@@ -315,8 +315,8 @@ int inline DilitarySearch_down(T array[], int low, int high, T value)
 		else if (cvalue >= value) b = p;
 	}
 }
-template<class T>//当value大于最大值时，返回最大index
-int inline DilitarySearch_up(T array[], int low, int high, T value)
+template<class DT>//当value大于最大值时，返回最大index
+int inline DilitarySearch_up(DT array[], int low, int high, DT value)
 {
 	if (value > array[high])
 	{
@@ -331,7 +331,7 @@ int inline DilitarySearch_up(T array[], int low, int high, T value)
 		return low;
 	}
 	int p;//搜索位置
-	T cvalue;
+	DT cvalue;
 	int a = low;
 	int b = high;
 
@@ -345,8 +345,8 @@ int inline DilitarySearch_up(T array[], int low, int high, T value)
 		else if (cvalue > value) b = p;
 	}
 }
-template<class T>//范围搜索
-int inline DilitarySearch_range(T array[], int low, int high, T low_value, T high_value, int& ia, int& ib)
+template<class DT>//范围搜索
+int inline DilitarySearch_range(DT array[], int low, int high, DT low_value, DT high_value, int& ia, int& ib)
 {
 	if (high_value > array[high])
 	{
@@ -361,7 +361,7 @@ int inline DilitarySearch_range(T array[], int low, int high, T low_value, T hig
 		return 0;
 	}
 	int p;//搜索位置
-	T cvalue;
+	DT cvalue;
 	int a = low;
 	int b = high;
 	while (1)

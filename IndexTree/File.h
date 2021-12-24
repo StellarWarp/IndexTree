@@ -1,6 +1,7 @@
 #ifndef FILE_H
 #define FILE_H
 #include<fstream>
+#include<filesystem>
 #include"Struct.h"
 #include"Support.h"
 #include"DataPrinter.h"
@@ -9,15 +10,15 @@ void test();
 
 unsigned long getinfo();
 
-template<class T>
-T* GetTextData(string filepath, unsigned long index, const int readform)
+template<class DT>
+DT* GetTextData(string filepath, unsigned long index, const int readform)
 {
-    ifstream datafile;
-    datafile.open(filepath);
-    datafile.seekg(index);
-    T* data = new T;
-    ReadForm(datafile, data, readform);
-    return data;
+	ifstream datafile;
+	datafile.open(filepath);
+	datafile.seekg(index);
+	DT* data = new DT;
+	ReadForm(datafile, data, readform);
+	return data;
 }
 
 //基础文件读写管理
@@ -34,7 +35,7 @@ class fmanage
 		holefile.open(filepath, ios::binary | ios::in | ios::out);
 		if (!holefile.is_open())
 		{
-			cout << "Lack of file manage file "<< filepath <<"\nwill build after save" << endl;
+			cout << "Lack of file manage file " << filepath << "\nwill build after save" << endl;
 		}
 		else
 		{
@@ -77,14 +78,15 @@ class fmanage
 		file.clear();
 	}
 public:
-	
+
 	fstream file;
 	fstream holefile;
 
-	void OpenFile(string filepath, string fileholepath)
+	void OpenFile(string filepath, string fileholepath, bool Rewitre = false)
 	{
 		OpenStackFile(fileholepath);
-		file.open(filepath, ios::binary | ios::in | ios::out);
+		if (Rewitre)file.open(filepath, ios::binary | ios::in | ios::out | ios::trunc);
+		else file.open(filepath, ios::binary | ios::in | ios::out);
 		if (!file.is_open())
 		{
 			cout << "Fail to open " << filepath << endl;
@@ -98,26 +100,32 @@ public:
 		file.close();
 	}
 
+	//未改进
 	void FileDelete(unsigned long DataPointer)
 	{
 		holestack.IN(DataPointer);
 		holecount++;
 	}
-	unsigned long FileAppend(DT data)
+	unsigned long FileAppends(DT data)
 	{
 		if (holestack.Nempty())
 		{
 			unsigned long DataPointer = holestack.OUT();
 			file.seekp(DataPointer);
 			file.write((char*)&data, datalen);
-			return DataPointer;
+			return DataPointer / datalen;
 		}
 		else
 		{
 			file.seekp(0, ios::end);
 			file.write((char*)&data, datalen);
-			return ((unsigned long)file.tellp() - datalen);
+			return ((unsigned long)file.tellp() / datalen - 1);
 		}
+	}
+	void FileModify(DT data, unsigned long DataPointer)
+	{
+		file.seekp(DataPointer * datalen);
+		file.write((char*)&data, datalen);
 	}
 
 	void ReadFile(unsigned long DataPointer, DT& data)
@@ -128,7 +136,7 @@ public:
 	//用标号读取
 	void ReadFile_i(unsigned long DataPointer, DT& data)
 	{
-		file.seekg(DataPointer*datalen);
+		file.seekg(DataPointer * datalen);
 		file.read((char*)&data, datalen);
 	}
 	//数据遍历//返回动态列队//文件指针//考虑抛弃
@@ -203,7 +211,7 @@ public:
 		{
 			while (n < datanum)
 			{
-				if (n != holelist[h]/datalen)
+				if (n != holelist[h] / datalen)
 				{
 					(*DataAddress).IN(n);
 				}
@@ -230,7 +238,7 @@ public:
 		DT data;
 		while (DataAddress.Nempty())
 		{
-			unsigned long DataPointer = DataAddress.OUT()*datalen;
+			unsigned long DataPointer = DataAddress.OUT() * datalen;
 			ReadFile(DataPointer, data);
 			printfunction(data);
 		}
@@ -320,7 +328,7 @@ public:
 	{
 		//获取指针
 		IT index;
-		fileindex.seekg(n*indexlen);
+		fileindex.seekg(n * indexlen);
 		fileindex.read((char*)&index, indexlen);
 		//读取数据
 		file.seekg(index.record);
