@@ -1,5 +1,6 @@
 ﻿#include"File.h"
 #include"Index.h"
+#include"Index_s.h"
 #include"StructOP.h"
 #include"Filter.h"
 #include"Printer.h"
@@ -85,7 +86,9 @@ int main()
     recordfile.CloseFile();
     personfile.CloseFile();
 
-    PersonName_i.SaveIndex("person");
+    PersonName_i.SaveIndex("person_name");
+    Index_s<fstring<33>> PersonName_is("person_name");
+    PersonName_is.data_find(list1, fstring < 33>("阿果果"));
 }
 
 

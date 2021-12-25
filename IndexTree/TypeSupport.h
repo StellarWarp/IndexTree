@@ -7,7 +7,15 @@ class fstring
 {
 public:
 	char str_in[lenth];
-
+	fstring(){}
+	fstring(string& s)
+	{
+		strcpy_s(str_in, s.c_str());
+	}
+	fstring(const char* s)
+	{
+		strcpy_s(str_in, s);
+	}
 	bool inline operator >(const fstring& str_out)
 	{
 		if (strcmp(str_in, str_out.str_in) > 0)

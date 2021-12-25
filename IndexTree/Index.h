@@ -4,6 +4,7 @@
 #include"Support.h"
 #include"File.h"
 #include"Define.h"//M
+using namespace std::experimental;
 template<class DT>//关键字的类型
 class Index
 {
@@ -539,6 +540,7 @@ class Index
 					{
 						int i = 0;
 						Shift(*BNode, i, i, CLayer, min_i);
+						Shift(*BNode, 1, BNode->num, *BNode, 0);
 						update0(Path.OUT(), Pathi.OUT(), CLayer.key[min_i], CLayer.DataPointer[min_i]);
 					}
 					else//合并
@@ -557,7 +559,7 @@ class Index
 					BNode = FNode.NodePointer[Bi].Np;
 					if (ismore(*BNode))//借用
 					{
-						int i = --BNode->num;
+						int i = --BNode->num;//数量减一
 						Insert(CLayer, BNode->NodePointer[i], BNode->key[i], BNode->DataPointer[i]);
 						update0(&FNode, Bi, BNode->key[i - 1], BNode->DataPointer[i - 1]);
 					}
@@ -605,8 +607,9 @@ class Index
 					BNode = FNode.NodePointer[Bi].Dp;
 					if (ismore(*BNode))//借用
 					{
-						int i = BNode->num - 1;
+						int i = 0;
 						Shift(*BNode, i, i, CLayer, min_i);
+						Shift(*BNode, 1, BNode->num, *BNode, 0);
 						update0(Path.OUT(), Pathi.OUT(), CLayer.key[min_i], CLayer.DataPointer[min_i]);
 					}
 					else//合并
@@ -692,6 +695,17 @@ class Index
 			return p;
 		}
 	}
+	void createfile(string& path)
+	{
+		ofstream test;
+		test.open(path);
+		if (!test.is_open())
+		{
+			test << "!" << endl;
+		}
+		test.close();
+	}
+		
 public:
 	void data_insert(unsigned long DataPointer, DT key)
 	{
@@ -723,15 +737,25 @@ public:
 	}
 	void SaveIndex(string Name)
 	{
+		string PathN = "Index/" + Name + "LayerN.bin";
+		string PathN_h = "Index/" + Name + "LayerN_hole.bin";
+		string PathD = "Index/" + Name + "LayerData.bin";
+		string PathD_h = "Index/" + Name + "LayerData_hole.bin";
+		string Pathinfo = "Index/" + Name + "info.bin";
+		createfile(PathN);
+		createfile(PathD);
+
 		fmanage<Index_LayerData<DT>> fLayerData;
 		fmanage<Index_LayerN<DT>> fLayerN;
-		string PathN = "Index/" + Name + "/LayerN.bin";
-		string PathN_h = "Index/" + Name + "/LayerN_hole.bin";
-		string PathD = "Index/" + Name + "/LayerData.bin";
-		string PathD_h = "Index/" + Name + "/LayerData_hole.bin";
 		fLayerN.OpenFile(PathN, PathN_h, true);
 		fLayerData.OpenFile(PathD, PathD_h, true);
-		SaveLayerN(fLayerN, fLayerData, *Master, H);
+
+		ofstream info;
+		unsigned long master_s = SaveLayerN(fLayerN, fLayerData, *Master, H);
+		info.open(Pathinfo, ios::binary);
+		info.write((char*)&master_s, sizeof(master_s));
+		info.write((char*)&H, sizeof(H));
+		info.close();
 		fLayerN.CloseFile();
 		fLayerData.CloseFile();
 	}

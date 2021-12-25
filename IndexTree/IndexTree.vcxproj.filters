@@ -59,7 +59,7 @@
     <ClInclude Include="TypeSupport.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Index_S.h">
+    <ClInclude Include="Index_s.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Define.h">
