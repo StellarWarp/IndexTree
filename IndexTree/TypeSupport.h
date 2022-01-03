@@ -7,7 +7,7 @@ class fstring
 {
 public:
 	char str_in[lenth];
-	fstring(){}
+	fstring(){};
 	fstring(string& s)
 	{
 		strcpy_s(str_in, s.c_str());
@@ -78,6 +78,51 @@ public:
 	int d=0;
 	int td=0;
 
+	Date() {};
+	Date(string t)
+	{
+		int year = 0;
+		int month = 0;
+		int day = 0;
+		int tday = 0;
+		//转化
+		for (int i = 0, p = 3; i < 4; i++)
+		{
+			year += (t[i] - '0') * pow(10, p);
+			p--;
+		}
+		for (int i = 5, p = 1; i < 7; i++)
+		{
+			month += (t[i] - '0') * pow(10, p);
+			p--;
+		}
+		for (int i = 8, p = 1; i < 10; i++)
+		{
+			day += (t[i] - '0') * pow(10, p);
+			p--;
+		}
+		y = year;
+		m = month;
+		d = day;
+		//计算td
+		//月、日
+		int month_l[12] = { 31,28,31,30,31,30,31,31,30,31,30,31 };
+		if (year % 400 == 0 || year % 100 != 0 && year % 4 == 0) month_l[1] = 29; else month_l[1] = 28;
+		for (int i = 0; i < month - 1; i++)
+		{
+			tday += month_l[i];
+		}
+		tday += day;
+		//年
+		int yearday;
+		for (int cyear = 1970; cyear < year; cyear++)
+		{
+			if (cyear % 400 == 0 || cyear % 100 != 0 && cyear % 4 == 0) yearday = 366; else yearday = 365;
+			tday += yearday;
+		}
+		td = tday;
+
+	}
 	void updata()
 	{
 		int tday = td;

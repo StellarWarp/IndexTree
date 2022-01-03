@@ -152,6 +152,7 @@
     <ClCompile Include="TypeSupport.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="DataManage.h" />
     <ClInclude Include="DataPrinter.h" />
     <ClInclude Include="Define.h" />
     <ClInclude Include="File.h" />
@@ -160,6 +161,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
       </ExcludedFromBuild>
     </ClInclude>
+    <ClInclude Include="IndexManage.h" />
     <ClInclude Include="Index_s.h" />
     <ClInclude Include="Index_single.h" />
     <ClInclude Include="Printer.h" />

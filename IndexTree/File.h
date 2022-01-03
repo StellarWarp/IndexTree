@@ -35,7 +35,7 @@ class fmanage
 		holefile.open(filepath, ios::binary | ios::in | ios::out);
 		if (!holefile.is_open())
 		{
-			cout << "Lack of file manage file " << filepath << "\nwill build after save" << endl;
+			//cout << "Lack of file manage file " << filepath << "\nwill build after modify" << endl;
 		}
 		else
 		{

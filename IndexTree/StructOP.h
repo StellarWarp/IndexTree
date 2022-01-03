@@ -37,8 +37,27 @@ Date inline record_date(record& node)
 {
 	return node.date;
 }
-
+int inline record_category(record& node)
+{
+	return node.category;
+}
 int inline record_time(record& node)
 {
 	return node.time;
+}
+int inline record_score_add(record& node)
+{
+	return node.score_add;
+}
+int inline record_score_remain(record& node)
+{
+	return node.score_remain;
+}
+int inline record_score_sub(record& node)
+{
+	return node.score_sub;
+}
+int inline record_score_sub_t(record& node)
+{
+	return node.score_sub_t;
 }

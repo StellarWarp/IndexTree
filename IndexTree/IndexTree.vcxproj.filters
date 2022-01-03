@@ -65,5 +65,11 @@
     <ClInclude Include="Define.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="DataManage.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="IndexManage.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

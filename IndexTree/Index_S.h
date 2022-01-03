@@ -700,13 +700,13 @@ class Index_s
 	}
 
 public:
-	Index_s(string Name)
+	void Import(string Name)
 	{
-		string PathN = "Index/" + Name + "/LayerN.bin";
-		string PathN_h = "Index/" + Name + "/LayerN_hole.bin";
-		string PathD = "Index/" + Name + "/LayerData.bin";
-		string PathD_h = "Index/" + Name + "/LayerData_hole.bin";
-		string Pathinfo = "Index/" + Name + "/info.bin";
+		string PathN = "Index/" + Name + "LayerN.bin";
+		string PathN_h = "Index/" + Name + "LayerN_hole.bin";
+		string PathD = "Index/" + Name + "LayerData.bin";
+		string PathD_h = "Index/" + Name + "LayerData_hole.bin";
+		string Pathinfo = "Index/" + Name + "info.bin";
 		fLayerN.OpenFile(PathN, PathN_h);
 		fLayerData.OpenFile(PathD, PathD_h);
 		ifstream info;
