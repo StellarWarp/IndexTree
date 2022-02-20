@@ -116,6 +116,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>Default</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -146,10 +147,13 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
       </ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="Server.cpp" />
     <ClCompile Include="Test.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="TypeSupport.cpp" />
+    <ClCompile Include="VisualTree.cpp" />
+    <ClCompile Include="控制台.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataManage.h" />
@@ -163,12 +167,17 @@
     </ClInclude>
     <ClInclude Include="IndexManage.h" />
     <ClInclude Include="Index_s.h" />
-    <ClInclude Include="Index_single.h" />
+    <ClInclude Include="Index_single.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="Printer.h" />
+    <ClInclude Include="Server.h" />
     <ClInclude Include="Support.h" />
     <ClInclude Include="Struct.h" />
     <ClInclude Include="StructOP.h" />
     <ClInclude Include="TypeSupport.h" />
+    <ClInclude Include="VisualTree.h" />
+    <ClInclude Include="控制台.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

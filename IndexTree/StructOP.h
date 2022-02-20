@@ -3,61 +3,28 @@
 #include"TypeSupport.h"
 #include<iostream>
 
-fstring<33> inline person_name(persondata& node)
+//访问函数
+systemID inline record_id(Record_user& node)
 {
-	fstring<33> str;
-	str = node.name;
-	return str;
+	return node.systemid;
 }
-fstring<19> inline person_ID(persondata& node)
+systemID inline record_mid(Record_user& node)
 {
-	fstring<19> str;
-	str = node.name;
-	return str;
+	return node.membersystemid;
 }
-int inline person_age(persondata& node)
+systemID inline member_id(Member_user& node)
 {
-	return node.age;
+	return node.systemid;
 }
-int inline person_income(persondata& node)
+systemID inline family_id(Family& node)
 {
-	return node.income;
+	return node.systemid;
 }
-long long inline person_phone(persondata& node)
+systemID inline user_fid(User& node)
 {
-	return node.phone;
+	return node.familyid;
 }
-
-string inline record_ID(record& node)
+systemID inline user_id(User& node)
 {
-	return node.ID;
-}
-
-Date inline record_date(record& node)
-{
-	return node.date;
-}
-int inline record_category(record& node)
-{
-	return node.category;
-}
-int inline record_time(record& node)
-{
-	return node.time;
-}
-int inline record_score_add(record& node)
-{
-	return node.score_add;
-}
-int inline record_score_remain(record& node)
-{
-	return node.score_remain;
-}
-int inline record_score_sub(record& node)
-{
-	return node.score_sub;
-}
-int inline record_score_sub_t(record& node)
-{
-	return node.score_sub_t;
+	return node.systemid;
 }

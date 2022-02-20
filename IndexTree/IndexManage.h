@@ -8,36 +8,20 @@
 #include"DataManage.h"
 using namespace std;
 
-Index<fstring<33>> PersonName_mi;
-Index<fstring<19>> PersonID_mi;
-Index<int> PersonAge_mi;
-Index<int> PersonIncome_mi;
-Index<long long> PersonPhone_mi;
+Index<systemID> User_i_;
+Index<systemID> Family_i_;
+Index<systemID> Member_i_;
+Index<systemID> User_family_i_;
+Index<systemID> Record_i_;
+Index<systemID> Record_user_i_;
 
-Index<Date> RecordDate_mi;
-Index<int> RecordCategory_mi;
-Index<int> RecordTime_mi;
-Index<int> Recordscore_add_mi;
-Index<int> Recordscore_remain_mi;
-Index<int> Recordscore_sub_mi;
-Index<int> Recordscore_sub_t_mi;
+Index_s<systemID> User_i;
+Index_s<systemID> Family_i;
+Index_s<systemID> Member_i;
+Index_s<systemID> User_family_i;
+Index_s<systemID> Record_i;
+Index_s<systemID> Record_user_i;
 
-
-Index_s<fstring<33>> PersonName_si;
-Index_s<fstring<19>> PersonID_si;
-Index_s<int> PersonAge_si;
-Index_s<int> PersonIncome_si;
-Index_s<long long> PersonPhone_si;
-
-Index_s<Date> RecordDate_si;
-Index_s<int> RecordCategory_si;
-Index_s<int> RecordTime_si;
-Index_s<int> Recordscore_add_si;
-Index_s<int> Recordscore_remain_si;
-Index_s<int> Recordscore_sub_si;
-Index_s<int> Recordscore_sub_t_si;
-
-Index_s<Date> Record_si;
 namespace mode
 {
     int normal = 1;
@@ -56,8 +40,6 @@ namespace object
 };
 class IndexManage
 {
-    bool memorymode = false;
-
     template<class ST, class DT>
     void IndexConstruct(fmanage<ST>& file, Index< DT >& index, DT(*opfunc)(ST&))
     {
@@ -70,49 +52,24 @@ class IndexManage
             DataPointer = DataLine.OUT();
             file.ReadFile_i(DataPointer, data);
             key = opfunc(data);
-            index.data_insert(DataPointer, key);
+            index.append(DataPointer, key);
         }
     }
 
     void BuildIndex()
     {
-        IndexConstruct(personfile, PersonName_mi, person_name);
-        IndexConstruct(personfile, PersonID_mi, person_ID);
-        IndexConstruct(personfile, PersonAge_mi, person_age);
-        IndexConstruct(personfile, PersonIncome_mi, person_income);
-        IndexConstruct(personfile, PersonPhone_mi, person_phone);
-
-        IndexConstruct(recordfile.file_m, RecordDate_mi, record_date);
-        IndexConstruct(recordfile.file_m, RecordCategory_mi, record_category);
-        IndexConstruct(recordfile.file_m, RecordTime_mi, record_time);
-        IndexConstruct(recordfile.file_m, Recordscore_add_mi, record_score_add);
-        IndexConstruct(recordfile.file_m, Recordscore_remain_mi, record_score_remain);
-        IndexConstruct(recordfile.file_m, Recordscore_sub_mi, record_score_sub);
-        IndexConstruct(recordfile.file_m, Recordscore_sub_t_mi, record_score_sub_t);
-
+        IndexConstruct(recordfile, Record_i_, record_id);
+        IndexConstruct(recordfile, Record_user_i_, record_mid);
+        IndexConstruct(memberfile, Member_i_, member_id);
+        IndexConstruct(userfile, User_family_i_, user_fid);
+        IndexConstruct(familyfile, Family_i_, family_id);
+        IndexConstruct(userfile, User_i_, user_id);
     }
 
-    void SaveIndex()
-    {
-        PersonName_mi.SaveIndex("person_name");
-        PersonID_mi.SaveIndex("person_id");
-        PersonAge_mi.SaveIndex("perosn_age");
-        PersonIncome_mi.SaveIndex("person_income");
-        PersonPhone_mi.SaveIndex("person_phone");
 
-        RecordDate_mi.SaveIndex("record_date");
-        RecordCategory_mi.SaveIndex("record_category");
-        RecordTime_mi.SaveIndex("record_time");
-        Recordscore_add_mi.SaveIndex("record_score_add");
-        Recordscore_remain_mi.SaveIndex("record_score_remain");
-        Recordscore_sub_mi.SaveIndex("record_score_sub");
-        Recordscore_sub_t_mi.SaveIndex("record_score_sub_t");
-    }
-
-    static const int index_num = 12;
+    static const int index_num = 6;
     string index_name[index_num] =
-    { "person_name","person_id","perosn_age","person_income","person_phone",
-        "record_date" ,"record_category","record_time","record_score_add","record_score_remain","record_score_sub","record_score_sub_t"};
+    { "user_id","family_id","member_id","user_fid","record_id","record_mid"};
 
     bool is_exi(string& name)
     {
@@ -143,31 +100,28 @@ class IndexManage
             {
                 error = true;
                 memorymode = true;
+                break;
             }
         }
         if (error)
         {
-            BuildIndex();
+            ReBuild();
         }
         else
         {
-            PersonName_si.Import("person_name");
-            PersonID_si.Import("person_id");
-            PersonAge_si.Import("perosn_age");
-            PersonIncome_si.Import("person_income");
-            PersonPhone_si.Import("person_phone");
+            User_i.Import("user_id");
+            Family_i.Import("family_id");
+            Member_i.Import("member_id");
+            User_family_i.Import("user_fid");
+            Record_i.Import("record_id");
+            Record_user_i.Import("record_mid");
 
-            RecordDate_si.Import("record_date");
-            RecordCategory_si.Import("record_category");
-            RecordTime_si.Import("record_time");
-            Recordscore_add_si.Import("record_score_add");
-            Recordscore_remain_si.Import("record_score_remain");
-            Recordscore_sub_si.Import("record_score_sub");
-            Recordscore_sub_t_si.Import("record_score_sub_t");
         }
     }
 
 public:
+    bool memorymode = false;
+
     void ImportIndex()
     {
         ImportIndex_p();
@@ -181,10 +135,20 @@ public:
             SaveIndex();
         }
     }
+    void SaveIndex()
+    {
+        User_i_.SaveIndex("user_id");
+        Family_i_.SaveIndex("family_id");
+        Member_i_.SaveIndex("member_id");
+        User_family_i_.SaveIndex("user_fid");
+        Record_i_.SaveIndex("record_id");
+        Record_user_i_.SaveIndex("record_mid");
+    }
     void ReBuild()
     {
         BuildIndex();
         SaveIndex();
+        ImportIndex_p();
     }
     void search(int mode,int obj)
     {
@@ -204,5 +168,15 @@ public:
     void satistic(int mode, int obj)
     {
 
+    }
+    void AddRecord(unsigned long DataPointer,systemID userid, systemID recordid)
+    {
+        Record_i_.append(DataPointer, recordid); 
+        Record_user_i_.append(DataPointer, userid);
+    }
+    void DeleteRecord(unsigned long DataPointer, systemID userid, systemID recordid)
+    {
+        Record_i_.data_delete(DataPointer, recordid);
+        Record_user_i_.data_delete(DataPointer, userid);
     }
 };

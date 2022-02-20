@@ -2,20 +2,23 @@
 #include"File.h"
 #include"Struct.h"
 using namespace std;
+fmanage<Record_user> recordfile;
+fmanage<Member_user> memberfile;
+fmanage<Family> familyfile;
+fmanage<User> userfile;
 
-RelevantInfoFile<record, recordindex> recordfile;
-fmanage<persondata> personfile;
-fmanage<scoredata> scorefile;
 void Open()
 {
-    recordfile.OpenFile("Data/record.bin", "Data/FileManage/record_hole.bin",
-        "Data/recordindex.bin", "Data/FileManage/recordindex_hole.bin");
-    personfile.OpenFile("Data/person.bin", "Data/FileManage/person_hole.bin");
-    scorefile.OpenFile("Data/score.bin", "Data/FileManage /score_hole.bin");
+    recordfile.OpenFile("Data/fee.dat", "Data/FileManage/record_hole.bin");
+    memberfile.OpenFile("Data/member.bin", "Data/FileManage/member_hole.bin");
+    familyfile.OpenFile("Data/family.bin", "Data/FileManage /famliy_hole.bin");
+    userfile.OpenFile("Data/user.bin", "Data/FileManage /user_hole.bin");
+
 }
 void Close()
 {
     recordfile.CloseFile();
-    personfile.CloseFile();
-    scorefile.CloseFile();
+    memberfile.CloseFile();
+    familyfile.CloseFile();
+    userfile.CloseFile();
 }

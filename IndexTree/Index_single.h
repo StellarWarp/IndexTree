@@ -509,7 +509,7 @@ class Index
 	}
 
 public:
-	void data_insert(unsigned long DataPointer, DT key)
+	void append(unsigned long DataPointer, DT key)
 	{
 		LayerDataAdd(DataPointer, key);
 	}

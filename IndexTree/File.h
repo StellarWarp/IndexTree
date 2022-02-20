@@ -29,6 +29,8 @@ class fmanage
 	Stack<unsigned long> holestack;
 	int holecount = 0;
 	int datanum = 0;
+
+	//获取储存的孔
 	void OpenStackFile(string filepath)
 	{
 		//读入孔
@@ -54,6 +56,7 @@ class fmanage
 			holefile.clear();
 		}
 	}
+	//保存孔栈数据
 	void SaveStack()
 	{
 		//储存孔
@@ -64,6 +67,7 @@ class fmanage
 			holefile.write((char*)&p, sizeof(unsigned long));
 		}
 	}
+	//获取数据量
 	void GetDataNum()
 	{
 		datanum = 0;
@@ -81,7 +85,7 @@ public:
 
 	fstream file;
 	fstream holefile;
-
+	//打开系列文件
 	void OpenFile(string filepath, string fileholepath, bool Rewitre = false)
 	{
 		OpenStackFile(fileholepath);
@@ -93,6 +97,7 @@ public:
 			exit(-1);
 		}
 	}
+	//关闭系列文件
 	void CloseFile()
 	{
 		SaveStack();
@@ -100,12 +105,18 @@ public:
 		file.close();
 	}
 
-	//未改进
+	//删除
 	void FileDelete(unsigned long DataPointer)
 	{
 		holestack.IN(DataPointer);
 		holecount++;
 	}
+	void FileDelete_i(unsigned long i)
+	{
+		holestack.IN(i*datalen);
+		holecount++;
+	}
+	//增加
 	unsigned long FileAppends(DT data)
 	{
 		if (holestack.Nempty())
@@ -122,21 +133,22 @@ public:
 			return ((unsigned long)file.tellp() / datalen - 1);
 		}
 	}
-	void FileModify(DT data, unsigned long DataPointer)
+	//修改
+	void FileModify(DT data, unsigned long i)
 	{
-		file.seekp(DataPointer * datalen);
+		file.seekp(i * datalen);
 		file.write((char*)&data, datalen);
 	}
-
+	//读取
 	void ReadFile(unsigned long DataPointer, DT& data)
 	{
 		file.seekg(DataPointer);
 		file.read((char*)&data, datalen);
 	}
 	//用标号读取
-	void ReadFile_i(unsigned long DataPointer, DT& data)
+	void ReadFile_i(unsigned long i, DT& data)
 	{
-		file.seekg(DataPointer * datalen);
+		file.seekg(i * datalen);
 		file.read((char*)&data, datalen);
 	}
 	//数据遍历//返回动态列队//文件指针//考虑抛弃
@@ -245,7 +257,7 @@ public:
 	}
 };
 
-//索引文件+记录文件读写管理//未完成
+//索引文件+记录文件读写管理
 template<class DT, class IT>
 class RelevantInfoFile
 {
@@ -334,6 +346,7 @@ public:
 		file.seekg(index.record);
 		file.read((char*)&data, datalen);
 	}
+	//打印数据
 	void PrintData(void (*printfunction)(DT&))
 	{
 		file_m.PrintFile(file_m.FileTraversal(), printfunction);

@@ -13,6 +13,12 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Index">
+      <UniqueIdentifier>{72e00952-068a-4906-90cd-2b6635f99bba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Visual">
+      <UniqueIdentifier>{3477f593-e41c-486f-a445-a0d711517e3b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -27,6 +33,15 @@
     <ClCompile Include="TypeSupport.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="Server.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="VisualTree.cpp">
+      <Filter>Visual</Filter>
+    </ClCompile>
+    <ClCompile Include="控制台.cpp">
+      <Filter>Visual</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="File.h">
@@ -35,16 +50,10 @@
     <ClInclude Include="Struct.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Index.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="Support.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="DataPrinter.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Index_single.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="StructOP.h">
@@ -59,17 +68,32 @@
     <ClInclude Include="TypeSupport.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Index_s.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="Define.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="DataManage.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="IndexManage.h">
+    <ClInclude Include="Server.h">
       <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Index.h">
+      <Filter>Index</Filter>
+    </ClInclude>
+    <ClInclude Include="IndexManage.h">
+      <Filter>Index</Filter>
+    </ClInclude>
+    <ClInclude Include="Index_s.h">
+      <Filter>Index</Filter>
+    </ClInclude>
+    <ClInclude Include="Index_single.h">
+      <Filter>Index</Filter>
+    </ClInclude>
+    <ClInclude Include="VisualTree.h">
+      <Filter>Visual</Filter>
+    </ClInclude>
+    <ClInclude Include="控制台.h">
+      <Filter>Visual</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

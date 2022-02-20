@@ -8,6 +8,7 @@ class Fliter
 	typedef unsigned long unit;
 	const unsigned int size_unit = sizeof(unit);
 	unsigned int space;
+	//或运算
 	void BitAppend(unsigned long List[], unsigned long value)
 	{
 		unsigned long in = 1;
@@ -18,6 +19,7 @@ class Fliter
 		}
 		List[value / size_unit] |= in;
 	}
+	//与运算
 	void BitFlit(unsigned long List1[], unsigned long List2[])
 	{
 		unsigned long in = 1;
@@ -29,12 +31,14 @@ class Fliter
 		List2 = new unsigned long[space] {0};
 	}
 public:
+	//初始化
 	Fliter(int max_num)
 	{
 		space = max_num % size_unit == 0 ? max_num / size_unit : max_num / size_unit + 1;
 		SearchList = new unsigned long[space] {0};
 		FlitList = new unsigned long[space] {0};
 	}
+	//导出
 	Line<unsigned long>& Read()
 	{
 		Line<unsigned long> Result;
@@ -56,6 +60,7 @@ public:
 		}
 		return Result;
 	}
+	//添加接口
 	void Append(Line<unsigned long>& Result)
 	{
 		while (Result.Nempty())
@@ -63,6 +68,7 @@ public:
 			BitAppend(SearchList, Result.OUT());
 		}
 	}
+	//筛选接口
 	void Flit(Line<unsigned long>& Result)
 	{
 		while (Result.Nempty())

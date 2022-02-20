@@ -5,62 +5,60 @@
 #include"Define.h"
 using namespace std;
 
-struct persondata
+const int LEN_NAME = 40;
+typedef unsigned long systemID;
+enum ConsumeType
 {
-	char name[33];
-	char ID[19];
-	int age;
-	char gender[7];
-	long long phone;
-	int income;
-	char address[100];
-	bool mark;
+	食品, 日用品, 服装, 电器, 水电煤气, 房贷, 学费, 交通费
+};
+struct Record_user
+{
+	systemID systemid;
+	char block = 0;
+	systemID membersystemid;
+	struct Date date;
+	char name[LEN_NAME];
+	int amount;//x100
+	enum ConsumeType type;
+	char method[20];
+	char site[30];
+	char detail[50];
+	struct Record_user* next;
+	struct Record_user* prev;
+};
+struct RecordList_user
+{
+	struct Record_user* C_Record;
+	struct Record_user* E_Record;
+	unsigned int len;
+};
+struct Member_user
+{
+	systemID systemid;
+	char name[LEN_NAME];
+	int MemberSpending;
+	struct RecordList_user record;
+	struct Member* next;
+	struct Member* prev;
+};
+struct Family
+{
+	systemID systemid;
+	char password[7];
+	char FamilyName[LEN_NAME];
 };
 
-struct scoredata //仅用于读score//和person关联
+struct User
 {
-	char name[33];
-	char ID[19];
-	Date date;
-	int category;
-	int time;
-	int score_add;
-	int score_remain;
-	int score_sub;
-	int score_sub_t;
-	bool mark;
+	systemID systemid = -1;
+	systemID familyid = -1;
+	char password[7] = "000000";
+	char passwordf[7];
+	char name[LEN_NAME];
 };
 
-struct record //用于读record
-{
-	char name[33];
-	char ID[19];
-	Date date;
-	int category;
-	int time;
-	int score_add;
-	int score_remain;
-	int score_sub;
-	int score_sub_t;
-	unsigned long next;
-	unsigned long previous;
-	bool mark;
-};
 
-struct recordindex
-{
-	char name[33];
-	char ID[19];
-	unsigned long record;
-	unsigned long next;
-	unsigned long previous;
-	bool mark;
-};
 
-struct data
-{
-    struct persondata person;
-};
 
 template<class DT>
 struct Index_LayerData

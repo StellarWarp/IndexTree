@@ -111,6 +111,10 @@ public:
 			DT n = C->num;//要返回的值
 			block* D = C;
 			C = C->next;
+			if (!C)
+			{
+				E = NULL;
+			}
 			free(D);
 			return n;
 		}
@@ -413,10 +417,13 @@ int inline DilitarySearch_SecondOrder_down(T1 array1[], T2 array2[], int low, in
 	if (a >= b)return a;
 	else if (a < b)
 	{
+		if (value2 == -1)return a;
+		T2 (*test)[10] = (T2(*)[10] )&array2;
 		return DilitarySearch_down(array2, a, b, value2);
 	}
 
 }
+
 #endif // !SUPPORT_H
 
 

@@ -55,7 +55,7 @@ class Index_s
 
 	//LayerData的操作函数
 	//未完成?
-	void Find(LayerData& Node, DT value, Line<Pointer>& DataAddress)
+	void Find(LayerData Node, DT value, Line<Pointer>& DataAddress)
 	{
 		int i = DilitarySearch_down(Node.key, 0, Node.num - 1, value);
 		if (value == Node.key[i])
@@ -70,7 +70,7 @@ class Index_s
 					DataAddress.IN(Node.DataPointer[i]);
 					i++;
 				}
-				if (i == Node.num && Node.next)
+				if (i == Node.num && Node.next != -1)
 				{
 
 					Find(readDNode(Node.next), value, DataAddress);
@@ -82,7 +82,7 @@ class Index_s
 			}
 		}
 	}
-	void RangeFind(LayerData& Node, DT low_value, DT top_value, Line<Pointer>& DataAddress)
+	void RangeFind(LayerData Node, DT low_value, DT top_value, Line<Pointer>& DataAddress)
 	{
 		int i = DilitarySearch_down(Node.key, 0, Node.num - 1, low_value);
 		LayerData CNode = Node;
@@ -262,8 +262,8 @@ class Index_s
 	{
 		Node.num--;
 		int del = DilitarySearch_SecondOrder_down(Node.key, Node.DataPointer, 0, Node.num, value, DP);
-		DeleteArray(Node.key, del, Node.num, (DT)-1);
-		DeleteArray(Node.DataPointer, del, Node.num, (Pointer)-1);
+		DeleteArray(Node.key, del, Node.num, (DT)0);
+		DeleteArray(Node.DataPointer, del, Node.num, (Pointer)0);
 		fLayerData.FileModify(Node, NP);
 		return del;
 	}
@@ -406,12 +406,23 @@ class Index_s
 	{
 		Node.num--;
 		int del = DilitarySearch_SecondOrder_down(Node.key, Node.DataPointer, 0, Node.num, value, DP);
-		DeleteArray(Node.key, del, Node.num, (DT)-1);
-		Pointer Empty;
+		DeleteArray(Node.key, del, Node.num, (DT)0);
+		Pointer Empty = 0;
 		DeleteArray(Node.NodePointer, del, Node.num, Empty);
-		DeleteArray(Node.DataPointer, del, Node.num, (Pointer)-1);
+		DeleteArray(Node.DataPointer, del, Node.num, (Pointer)0);
 		fLayerN.FileModify(Node, NP);
 		return del;
+	}
+	//删除index
+	void Delete(LayerN& Node, Pointer NP, int i)
+	{
+		Node.num--;
+		int del = i;
+		DeleteArray(Node.key, del, Node.num, (DT)0);
+		Pointer Empty = 0;
+		DeleteArray(Node.NodePointer, del, Node.num, Empty);
+		DeleteArray(Node.DataPointer, del, Node.num, (unsigned long)0);
+		fLayerN.FileModify(Node, NP);
 	}
 	//将1移到2
 	void Shift(LayerN& Node1, Pointer NP1, int a1, int b1, LayerN& Node2, Pointer NP2, int a2)
@@ -427,7 +438,7 @@ class Index_s
 	}
 
 	//函数
-	Pointer FIndLayerData(DT key, Pointer DP)
+	Pointer FIndLayerData(DT key, Pointer DP = 0)
 	{
 		while (Path.Nempty())
 		{
@@ -438,7 +449,7 @@ class Index_s
 		if (h > 1)
 		{
 			DT maxkey = CNode.key[CNode.num - 1];
-			if (key >= maxkey)
+			if (key > maxkey)
 			{
 				key = maxkey;
 				Pointer maxPD = CNode.DataPointer[CNode.num - 1];
@@ -539,7 +550,7 @@ class Index_s
 		}
 	}
 	//删除功能未充分检验
-	void LayerNDelete(DT key, Pointer DP)
+	void LayerNDelete(int del)
 	{
 		Pather path = Path.OUT();
 		LayerN& CLayer = path.Node;//当前节点
@@ -548,7 +559,7 @@ class Index_s
 		DT keymax = CLayer.key[min_i];
 		Pointer DPmax = CLayer.DataPointer[min_i];
 		//直接删除
-		int del = Delete(CLayer, CNP, key, DP);
+		Delete(CLayer, CNP, del);
 		if (Path.Nempty())
 		{
 			if (CLayer.num < min_key)
@@ -557,14 +568,14 @@ class Index_s
 				//父节点
 				Pointer FNP = path.NP;
 				LayerN& FNode = path.Node;
-				int Fi = path.i;
+				int Ci = path.i;
 				//兄弟节点
 				Pointer BNP;
 				LayerN BNode;
 				int Bi;
-				if (Fi == 0)
+				if (Ci == 0)
 				{//右
-					Bi = Fi + 1;
+					Bi = Ci + 1;
 					BNP = FNode.NodePointer[Bi];
 					BNode = readNNode(BNP);
 					if (ismore(BNode))//借用
@@ -574,19 +585,17 @@ class Index_s
 						Shift(BNode, BNP, 1, BNode.num, BNode, BNP, 0);
 						update0(Path.OUT(), CLayer.key[min_i], CLayer.DataPointer[min_i]);
 					}
-					else//合并//删除自己
+					else//合并//删除B
 					{
-						MoveArray_b(BNode.key, 0, min_i, BNode.key, max_i);
-						MoveArray_b(BNode.NodePointer, 0, min_i, BNode.NodePointer, max_i);
-						MoveArray_b(BNode.DataPointer, 0, min_i, BNode.DataPointer, max_i);
-						Shift(CLayer, CNP, 0, min_i - 1, BNode, BNP, 0);
-						LayerNDelete(keymax, DPmax);//删除节点的索引
+						Shift(BNode, BNP, 0, min_i, CLayer, CNP, min_i);
+						update0(Path.OUT(), CLayer.key[min_i], CLayer.DataPointer[min_i]);
+						LayerNDelete(Bi);
 						fLayerN.FileDelete(CNP);
 					}
 				}
 				else
 				{//左
-					Bi = Fi - 1;
+					Bi = Ci - 1;
 					BNP = FNode.NodePointer[Bi];
 					BNode = readNNode(BNP);
 					if (ismore(BNode))//借用
@@ -606,7 +615,7 @@ class Index_s
 						path.NP = FNP;
 						path.i = Bi;
 						update0(path, BNode.key[max_i], BNode.DataPointer[max_i]);
-						LayerNDelete(keymax, DPmax);
+						LayerNDelete(Ci);
 						fLayerN.FileDelete(CNP);
 					}
 				}
@@ -639,14 +648,14 @@ class Index_s
 				//父节点
 				Pointer FNP = path.NP;
 				LayerN& FNode = path.Node;
-				int Fi = path.i;
+				int Ci = path.i;
 				//兄弟节点
 				Pointer BNP;
 				LayerData BNode;
 				int Bi;
-				if (Fi == 0)
+				if (Ci == 0)
 				{//右
-					Bi = Fi + 1;
+					Bi = Ci + 1;
 					BNP = FNode.NodePointer[Bi];
 					BNode = readDNode(BNP);
 					if (ismore(BNode))//借用//最小值
@@ -658,16 +667,17 @@ class Index_s
 					}
 					else//合并
 					{
-						MoveArray_b(BNode.key, 0, min_i, BNode.key, max_i);
-						MoveArray_b(BNode.DataPointer, 0, min_i, BNode.DataPointer, max_i);
-						Shift(CLayer, CNP, 0, min_i - 1, BNode, BNP, 0);
-						LayerNDelete(keymax, DPmax);
-						fLayerData.FileDelete(CNP);
+						Shift(BNode, BNP, 0, min_i, CLayer, CNP, min_i);
+						update0(Path.OUT(), CLayer.key[min_i], CLayer.DataPointer[min_i]);
+						LayerNDelete(Bi);
+						CLayer.next = BNode.next;
+						fLayerData.FileModify(CLayer, CNP);
+						fLayerData.FileDelete(BNP);
 					}
 				}
 				else
 				{//左
-					Bi = Fi - 1;
+					Bi = Ci - 1;
 					BNP = FNode.NodePointer[Bi];
 					BNode = readDNode(BNP);
 					if (ismore(BNode))//借用
@@ -687,7 +697,9 @@ class Index_s
 						path.NP = FNP;
 						path.i = Bi;
 						update0(path, BNode.key[max_i], BNode.DataPointer[max_i]);
-						LayerNDelete(keymax, DPmax);
+						LayerNDelete(Ci);
+						BNode.next = CLayer.next;
+						fLayerData.FileModify(CLayer, CNP);
 						fLayerData.FileDelete(CNP);
 					}
 				}
@@ -720,7 +732,7 @@ public:
 		fLayerN.CloseFile();
 		fLayerData.CloseFile();
 	}
-	void data_insert(Pointer DataPointer, DT key)
+	void append(Pointer DataPointer, DT key)
 	{
 		LayerDataAdd(DataPointer, key);
 	}
@@ -728,7 +740,7 @@ public:
 	{
 		LayerDataDelete(DataPointer, key);
 	}
-	void data_find(Line<Pointer>& DataAddress, DT key, Pointer DataPointer = -1)
+	void data_find(Line<Pointer>& DataAddress, DT key, Pointer DataPointer = 0)
 	{
 		Pointer CNP = FIndLayerData(key, DataPointer);
 		LayerData CNode = readDNode(CNP);
